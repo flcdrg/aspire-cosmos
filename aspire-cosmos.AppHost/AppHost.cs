@@ -1,14 +1,21 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
+#pragma warning disable ASPIRECOSMOSDB001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
 var cosmos = builder.AddAzureCosmosDB("cosmos")
-    .RunAsEmulator(emulator =>
+    .RunAsPreviewEmulator(emulator =>
     {
-        //emulator.WithImage("");
+        emulator.WithDataExplorer();
     });
+#pragma warning restore ASPIRECOSMOSDB001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
 
-var app = builder.AddProject<Projects.CosmosClientApp>("app")
+var database = cosmos.AddCosmosDatabase("db");
+
+var container = database.AddContainer("container", "/name");
+
+var app = builder.AddAzureFunctionsProject<Projects.CosmosFuncApp>("app")
     .WaitFor(cosmos)
-    .WithReference(cosmos)
-    ;
+    .WithReference(container)
+    .WithReference(database);
+    
 
 builder.Build().Run();
