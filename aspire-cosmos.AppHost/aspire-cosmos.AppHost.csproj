@@ -8,4 +8,12 @@
     <UserSecretsId>42a4464b-cc19-4f3d-a314-80ada61207f7</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.Azure.CosmosDB" Version="13.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CosmosClientApp\CosmosClientApp.csproj" />
+  </ItemGroup>
+
 </Project>
